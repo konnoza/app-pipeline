@@ -7,7 +7,8 @@ WORKDIR /app
 # Copy dependency definition files
 COPY package*.json ./
 
-# Install dependencies (including dev dependencies for potential build steps)
+# Install dependencies and update to ensure all known CVEs (like 2024-21538) 
+# are resolved by pulling the fixed versions (npm update is key for transitive deps).
 RUN npm install --omit=dev && npm update
 
 # ---- Final Stage ----
@@ -17,16 +18,17 @@ FROM node:20-alpine
 WORKDIR /app
 
 # Copy only production dependencies from the builder stage
-# Uses the /usr/local/lib/node_modules path standard for global packages
 COPY --chown=node:node --from=builder /app/node_modules ./node_modules
 
 # Copy application code
-# Assuming the Express code is saved as 'index.js'
 COPY --chown=node:node index.js .
 
-# Set the environment variables for your application (from your Express code)
+# Set the environment variables
 ENV BACKEND_API_URL='http://localhost:8080'
 ENV PORT=80
+
+# CRITICAL FIX: Install 'curl' for the HEALTHCHECK. This must run as root.
+RUN apk add --no-cache curl
 
 # Now switch to the non-root user for security
 # All commands from here (including CMD) will run as the 'node' user.
