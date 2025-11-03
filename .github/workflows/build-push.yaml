@@ -30,7 +30,7 @@ jobs:
           # This will fail the build if secrets are found
           verbose: true
 
-  Job 2: Build, Scan, and Push the Backend Image
+  # Job 2: Build, Scan, and Push the Backend Image
   build-backend:
     name: Build & Push Backend
     runs-on: ubuntu-latest
