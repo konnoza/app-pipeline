@@ -11,8 +11,8 @@ COPY package*.json ./
 RUN npm install --omit=dev
 
 # ---- Final Stage ----
-# FIX: Switched to slim base for consistent, minimal size, and reliable package management
-FROM node:20-slim
+# FIX: Switched back to Alpine base for consistent, minimal size, and reliable package management
+FROM node:20-alpine
 
 WORKDIR /app
 
@@ -37,4 +37,4 @@ HEALTHCHECK --interval=30s --timeout=3s \
 
 # Expose port and run application
 EXPOSE ${PORT}
-CMD ["node", "server.js"]
+CMD ["node", "index.js"]
