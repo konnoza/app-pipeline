@@ -27,7 +27,7 @@ COPY --chown=node:node --from=builder /app/node_modules ./node_modules
 
 # Copy application code
 # Assuming the Express code is saved as 'server.js'
-COPY --chown=node:node server.js .
+COPY --chown=node:node index.js .
 
 # Set the environment variables for your application (from your Express code)
 ENV BACKEND_API_URL='http://localhost:8080'
