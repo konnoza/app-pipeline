@@ -47,15 +47,16 @@ jobs:
           client-id: b8ea3cc8-c18e-406e-aae6-605035570491
           tenant-id: 38ed0a87-0953-4206-adb3-d9f096bbce82
           subscription-id: 502d2b68-68b7-492d-87a3-a68571a5645a
-          # Display name helps track the federated credential login in Azure AD
-          federated-auth-display-name: GitHubOIDCAuth
 
+      # - name: 'ACR login'
+      #   uses: azure/docker-login@v2
+      #   with:
+      #     login-server: ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io
+      # #     username: ${{ secrets.ACR_USERNAME }}
+      # #     password: ${{ secrets.ACR_PASSWORD }}
       - name: 'ACR login'
-        uses: azure/docker-login@v2
-        with:
-          login-server: ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io
-      #     username: ${{ secrets.ACR_USERNAME }}
-      #     password: ${{ secrets.ACR_PASSWORD }}
+        run: |
+          az acr login --name ${{ env.AZURE_CONTAINER_REGISTRY }}
 
       - name: Build backend image
         run: |
