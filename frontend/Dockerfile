@@ -5,11 +5,12 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # Copy dependency definition files
-COPY package*.json ./
+# FIX: Adjusted to only copy package.json as the lock file is reported missing.
+COPY package.json ./
 
-# Install dependencies and update to ensure all known CVEs (like 2024-21538) 
-# are resolved by pulling the fixed versions (npm update is key for transitive deps).
-RUN npm install --omit=dev && npm update
+# Install dependencies. Running npm install without a lock file will pull the latest 
+# versions allowed by package.json, which helps resolve CVEs.
+RUN npm install --omit=dev 
 
 # ---- Final Stage ----
 # FIX: Switched back to Alpine base for consistent, minimal size, and reliable package management
