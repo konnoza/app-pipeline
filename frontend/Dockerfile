@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies (including dev dependencies for potential build steps)
-RUN npm install
+RUN npm install --omit=dev && npm update
 
 # ---- Final Stage ----
 # FIX: Switched back to Alpine base for consistent, minimal size, and reliable package management
