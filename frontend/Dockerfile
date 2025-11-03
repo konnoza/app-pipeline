@@ -16,11 +16,6 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# SRE: Run as a non-privileged user
-# The 'node' image already comes with a non-root 'node' user (UID 1000)
-# We will switch to this built-in user for the final stage.
-USER node
-
 # Copy only production dependencies from the builder stage
 # Uses the /usr/local/lib/node_modules path standard for global packages
 COPY --chown=node:node --from=builder /app/node_modules ./node_modules
@@ -34,8 +29,12 @@ ENV BACKEND_API_URL='http://localhost:8080'
 ENV PORT=80
 
 # SRE: Container health check (required by assignment)
-# FIX: Changed 'apt-get' to 'apk add --no-cache curl' which works reliably on Alpine.
+# FIX: Moved 'USER node' down. Package installation MUST run as root (default user).
 RUN apk add --no-cache curl
+
+# Now switch to the non-root user for security
+# All commands from here (including CMD) will run as the 'node' user.
+USER node
 
 HEALTHCHECK --interval=30s --timeout=3s \
   CMD curl -f http://localhost:${PORT}/healthz || exit 1
