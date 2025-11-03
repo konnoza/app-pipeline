@@ -5,7 +5,7 @@ on:
     branches:
       - main
 
-# SRE: Set environment variables (use GitHub Secrets for sensitive values)
+# Set environment variables (use GitHub Secrets for sensitive values)
 env:
   AZURE_CONTAINER_REGISTRY: 'acrmytestnatthasw' # e.g., mydevopsacr
   IMAGE_TAG: ${{ github.sha }} # Use SHA for a unique, consistent tag
@@ -48,7 +48,7 @@ jobs:
           subscription-id: 502d2b68-68b7-492d-87a3-a68571a5645a
 
       - name: 'ACR login'
-        uses: azure/docker-login@v1
+        uses: azure/docker-login@v2
         with:
           login-server: ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io
       #     username: ${{ secrets.ACR_USERNAME }}
