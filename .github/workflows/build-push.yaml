@@ -56,15 +56,15 @@ jobs:
         run: |
           docker build ./backend -t ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/backend:${{ env.IMAGE_TAG }}
 
-      # - name: Run Trivy vulnerability scanner on backend
-      #   uses: aquasecurity/trivy-action@master
-      #   with:
-      #     image-ref: '${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}'
-      #     format: 'table'
-      #     exit-code: '1' # Fail the job if vulnerabilities are found
-      #     ignore-unfixed: true # Don't fail for vulnerabilities with no fix
-      #     vuln-type: 'os,library'
-      #     severity: 'CRITICAL,HIGH' # Only fail on these severities
+      - name: Run Trivy vulnerability scanner on backend
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: '${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/backend:${{ env.IMAGE_TAG }}'
+          format: 'table'
+          exit-code: '1' # Fail the job if vulnerabilities are found
+          ignore-unfixed: true # Don't fail for vulnerabilities with no fix
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH' # Only fail on these severities
 
       - name: Push backend image
         run: |
