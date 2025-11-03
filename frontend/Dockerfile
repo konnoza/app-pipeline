@@ -1,6 +1,6 @@
 # ---- Build Stage ----
 # Use an Alpine-based node image for a small starting size
-FROM node:20-alpine AS builder
+FROM node:22-alpine AS builder
 
 WORKDIR /app
 
@@ -14,7 +14,7 @@ RUN npm install --omit=dev
 
 # ---- Final Stage ----
 # FIX: Switched back to Alpine base for consistent, minimal size, and reliable package management
-FROM node:20-alpine
+FROM node:22-alpine
 
 WORKDIR /app
 
