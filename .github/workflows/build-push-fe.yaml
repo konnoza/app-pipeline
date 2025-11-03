@@ -17,18 +17,18 @@ permissions:
 
 jobs:
   # Job 1: Scan for secrets in the codebase before any build
-  # security-scan:
-  #   name: Scan for Secrets
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
+  security-scan:
+    name: Scan for Secrets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-  #     - name: Run Gitleaks secret scanner
-  #       uses: gitleaks/gitleaks-action@v2
-  #       with:
-  #         # This will fail the build if secrets are found
-  #         verbose: true
+      - name: Run Gitleaks secret scanner
+        uses: gitleaks/gitleaks-action@v2
+        with:
+          # This will fail the build if secrets are found
+          verbose: true
 
   # Job 2: Build, Scan, and Push the Frontend Image
   build-frontend:
@@ -39,16 +39,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # - name: 'Azure login'
-      #   uses: azure/login@v2
-      #   with:
-      #     client-id: b8ea3cc8-c18e-406e-aae6-605035570491
-      #     tenant-id: 38ed0a87-0953-4206-adb3-d9f096bbce82
-      #     subscription-id: 502d2b68-68b7-492d-87a3-a68571a5645a
+      - name: 'Azure login'
+        uses: azure/login@v2
+        with:
+          client-id: b8ea3cc8-c18e-406e-aae6-605035570491
+          tenant-id: 38ed0a87-0953-4206-adb3-d9f096bbce82
+          subscription-id: 502d2b68-68b7-492d-87a3-a68571a5645a
 
-      # - name: 'ACR login'
-      #   run: |
-      #     az acr login --name ${{ env.AZURE_CONTAINER_REGISTRY }}
+      - name: 'ACR login'
+        run: |
+          az acr login --name ${{ env.AZURE_CONTAINER_REGISTRY }}
 
       - name: Build frontend image
         run: |
@@ -64,6 +64,6 @@ jobs:
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH' # Only fail on these severities
 
-      # - name: Push frontend image
-      #   run: |
-      #     docker push ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/frontend:${{ env.IMAGE_TAG }}
+      - name: Push frontend image
+        run: |
+          docker push ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/frontend:${{ env.IMAGE_TAG }}
