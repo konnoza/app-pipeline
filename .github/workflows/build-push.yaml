@@ -35,8 +35,6 @@ jobs:
     name: Build & Push Backend
     runs-on: ubuntu-latest
     needs: security-scan # This job only runs if security-scan succeeds
-    # env:
-    #   IMAGE_NAME: '${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/backend'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -75,8 +73,6 @@ jobs:
     name: Build & Push Frontend
     runs-on: ubuntu-latest
     needs: security-scan # This job only runs if security-scan succeeds
-    env:
-      IMAGE_NAME: ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/frontend
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
