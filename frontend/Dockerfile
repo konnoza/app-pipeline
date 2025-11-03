@@ -11,8 +11,8 @@ COPY package*.json ./
 RUN npm install --omit=dev
 
 # ---- Final Stage ----
-# Use a minimal production-ready base image
-FROM node:20-slim
+# FIX: Switched to Alpine base for consistent, minimal size, and reliable package management
+FROM node:20-alpine
 
 WORKDIR /app
 
@@ -26,7 +26,7 @@ USER node
 COPY --chown=node:node --from=builder /app/node_modules ./node_modules
 
 # Copy application code
-# Assuming the Express code is saved as 'server.js'
+# Assuming the Express code is saved as 'index.js'
 COPY --chown=node:node index.js .
 
 # Set the environment variables for your application (from your Express code)
@@ -34,10 +34,8 @@ ENV BACKEND_API_URL='http://localhost:8080'
 ENV PORT=80
 
 # SRE: Container health check (required by assignment)
-# The health check must target the correct port and endpoint defined in your Express code.
-# The 'curl' package is not available in 'node:slim', so we use 'wget' or install 'curl'.
-# Let's use wget as it's often available, or install curl for robustness (preferred).
-RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+# FIX: Changed 'apt-get' to 'apk add --no-cache curl' which works reliably on Alpine.
+RUN apk add --no-cache curl
 
 HEALTHCHECK --interval=30s --timeout=3s \
   CMD curl -f http://localhost:${PORT}/healthz || exit 1

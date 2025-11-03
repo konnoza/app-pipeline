@@ -1,4 +1,4 @@
-name: Build, Scan, and Push Images
+name: Backend - Build, Scan, and Push Images
 
 on:
   push:
