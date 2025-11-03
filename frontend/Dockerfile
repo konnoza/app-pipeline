@@ -28,10 +28,6 @@ COPY --chown=node:node index.js .
 ENV BACKEND_API_URL='http://localhost:8080'
 ENV PORT=80
 
-# SRE: Container health check (required by assignment)
-# FIX: Moved 'USER node' down. Package installation MUST run as root (default user).
-RUN apk add --no-cache curl
-
 # Now switch to the non-root user for security
 # All commands from here (including CMD) will run as the 'node' user.
 USER node
