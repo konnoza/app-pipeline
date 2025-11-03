@@ -11,8 +11,8 @@ COPY package*.json ./
 RUN npm install --omit=dev
 
 # ---- Final Stage ----
-# FIX: Switched to Alpine base for consistent, minimal size, and reliable package management
-FROM node:20-alpine
+# FIX: Switched to slim base for consistent, minimal size, and reliable package management
+FROM node:20-slim
 
 WORKDIR /app
 
