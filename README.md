@@ -19,6 +19,14 @@ This repository utilizes GitHub Actions to automate the build, push, and deploym
 - `deploy-be-stg.yaml`: Deploys the backend application to the staging environment using Helm.
 - `deploy-fe-stg.yaml`: Deploys the frontend application to the staging environment using Helm.
 
+## CI/CD Diagram
+
+The following diagram illustrates the CI/CD process for this application:
+
+![CI/CD Diagram](resources/cicd-diagram.png)
+
+This diagram outlines dispatch to deployment, ensuring efficient delivery pipeline.
+
 ## Pipeline Status
 
 | Workflow | Status |
