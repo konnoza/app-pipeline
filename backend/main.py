@@ -1,6 +1,23 @@
 import os
 from flask import Flask, jsonify
+from opencensus.ext.azure.trace_exporter import AzureExporter
+from opencensus.trace.samplers import ProbabilitySampler
+from opencensus.trace.tracer import Tracer
 
+# --- SRE: Observability (Application Insights) ---
+# Check if the App Insights key is present
+APP_INSIGHTS_KEY = os.environ.get("APP_INSIGHTS_INSTRUMENTATIONKEY")
+
+if APP_INSIGHTS_KEY:
+    # This enables distributed tracing
+    exporter = AzureExporter(
+        connection_string=f'InstrumentationKey={APP_INSIGHTS_KEY}'
+    )
+    tracer = Tracer(exporter=exporter, sampler=ProbabilitySampler(1.0))
+    print("INFO: Application Insights tracing is ENABLED.")
+else:
+    tracer = None
+    print("WARN: Application Insights tracing is DISABLED. Set APP_INSIGHTS_INSTRUMENTATIONKEY to enable.")
 # ----------------------------------------------------
 
 app = Flask(__name__)
