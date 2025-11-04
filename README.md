@@ -19,6 +19,17 @@ This repository utilizes GitHub Actions to automate the build, push, and deploym
 - `deploy-be-stg.yaml`: Deploys the backend application to the staging environment using Helm.
 - `deploy-fe-stg.yaml`: Deploys the frontend application to the staging environment using Helm.
 
+## Pipeline Status
+
+| Workflow | Status |
+|---|---|
+| Build & Push Backend | ![Build and Push Backend](https://github.com/your-username/app-pipeline/actions/workflows/build-push-be.yaml/badge.svg) |
+| Build & Push Frontend | ![Build and Push Frontend](https://github.com/your-username/app-pipeline/actions/workflows/build-push-fe.yaml/badge.svg) |
+| Deploy Backend Staging | ![Deploy Backend Staging](https://github.com/your-username/app-pipeline/actions/workflows/deploy-be-stg.yaml/badge.svg) |
+| Deploy Frontend Staging | ![Deploy Frontend Staging](https://github.com/your-username/app-pipeline/actions/workflows/deploy-fe-stg.yaml/badge.svg) |
+
+**Note:** Replace `your-username` in the badge URLs with your actual GitHub username or organization name.
+
 ## How to Deploy the Project
 
 To deploy this project, you will typically follow these steps:
