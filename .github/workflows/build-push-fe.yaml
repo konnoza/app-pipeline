@@ -1,15 +1,17 @@
 name: Frontend - Build, Scan, and Push Images
 
 on:
-  push:
-    branches:
-      - main
-  workflow_dispatch: # Added to allow manual trigger
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Artifact tag version"
+        default: 'v0.0.1'
+        required: true
 
 # Set environment variables (use GitHub Secrets for sensitive values)
 env:
-  AZURE_CONTAINER_REGISTRY: 'acrmytestnatthasw' # e.g., mydevopsacr
-  IMAGE_TAG: ${{ github.sha }} # Use SHA for a unique, consistent tag
+  AZURE_CONTAINER_REGISTRY: ${{ vars.AZURE_CONTAINER_REGISTRY_NAME }} # e.g., mydevopsacr
+  IMAGE_TAG: ${{ github.event.inputs.tag }} # Use SHA for a unique, consistent tag
 
 permissions:
   id-token: write # Mandatory for Azure OIDC authentication

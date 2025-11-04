@@ -1,0 +1,10 @@
+{{- if .Values.createNamespace }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  # Best Practice: Use the release namespace as the default name, 
+  # or allow a custom name via values.
+  name: {{ .Values.namespace.name | default .Release.Namespace }} 
+  labels:
+    {{- include "appDeploy.labels" . | nindent 4 }}
+{{- end }}
