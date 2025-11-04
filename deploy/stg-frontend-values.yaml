@@ -108,3 +108,6 @@ configMapEnvVars:
   - name: BACKEND_API_URL
     key: http://localhost:8080
     configMapName: backend_api_url-cm
+
+configData:
+  data: {}
