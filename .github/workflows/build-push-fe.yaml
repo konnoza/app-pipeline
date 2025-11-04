@@ -11,7 +11,7 @@ on:
 # Set environment variables (use GitHub Secrets for sensitive values)
 env:
   AZURE_CONTAINER_REGISTRY: ${{ vars.AZURE_CONTAINER_REGISTRY_NAME }} # e.g., mydevopsacr
-  IMAGE_TAG: ${{ github.event.inputs.tag }} # Use SHA for a unique, consistent tag
+  IMAGE_TAG: ${{ github.event.inputs.tag }}
 
 permissions:
   id-token: write # Mandatory for Azure OIDC authentication
@@ -41,12 +41,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: 'Azure login'
+      - name: Log in with Azure
         uses: azure/login@v2
         with:
-          client-id: b8ea3cc8-c18e-406e-aae6-605035570491
-          tenant-id: 38ed0a87-0953-4206-adb3-d9f096bbce82
-          subscription-id: 502d2b68-68b7-492d-87a3-a68571a5645a
+          client-id: ${{ secrets.AZURE_MI_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: 'ACR login'
         run: |
