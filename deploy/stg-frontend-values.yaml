@@ -104,10 +104,10 @@ serviceAccount:
   name: ""
 
 # Configuration data for the application
-configMapEnvVars:
-  - name: BACKEND_API_URL
-    key: http://localhost:8080
-    configMapName: backend_api_url-cm
+configMapEnvVars: {}
+  # - name: BACKEND_API_URL
+  #   key: http://localhost:8080
+  #   configMapName: backend-api-url-cm
 
 configData:
   data: {}
