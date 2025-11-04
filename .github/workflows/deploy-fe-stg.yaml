@@ -13,6 +13,7 @@ permissions:
   contents: read # Allow checkout
 
 env:
+  APP_TYPE: 'frontend'
   ENVIRONMENT: 'stg'
   KUBERNETES_NAMESPACE: 'stg-fe'
   CLUSTER_RESOURCE_GROUP: 'rg-mydemo-az-asse-dev-001'
@@ -51,7 +52,7 @@ jobs:
 
       - name: 'Build Deployment Template'
         run: |
-          helm template ./helm/templates --values deploy/stg-frontend-vaules.yaml \
+          helm template ./helm/templates --values deploy/${{ env.ENVIRONMENT }}-${{ env.APP_TYPE }}-vaules.yaml \
           --set deploymentEnvironment=${{ env.ENVIRONMENT }} \
           --set imageVersion=${{ env.IMAGE_TAG}} \
           --output-dir helm/output
