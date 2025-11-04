@@ -66,4 +66,4 @@ jobs:
       - name: 'Deploy'
         run: |
           export KUBERNETES_NAMESPACE=${{ env.KUBERNETES_NAMESPACE }}
-          kubectl apply -f helm/output/templates/ -n ${KUBERNETES_NAMESPACE}
+          kubectl apply -f helm/output/appDeploy/templates/ -n ${KUBERNETES_NAMESPACE}
