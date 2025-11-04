@@ -1,6 +1,6 @@
 # Controls the Namespace resource creation
 createNamespace: true # Set to 'true' if you want this Helm chart to create the namespace
-
+nameOverride: frontend
 namespace:
   name: "stg-fe" 
 
