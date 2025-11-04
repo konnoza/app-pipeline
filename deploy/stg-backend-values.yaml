@@ -1,0 +1,113 @@
+# Controls the Namespace resource creation
+createNamespace: true # Set to 'true' if you want this Helm chart to create the namespace
+nameOverride: frontend
+namespace:
+  name: "stg-be" 
+
+# Pod Constraints: Replica Count (Used if HPA is disabled)
+replicaCount: 1
+
+# Best Practice: Image configuration
+image:
+  repository: /backend
+  pullPolicy: Always
+
+# Best Practice: Pod Security Contexts
+podSecurityContext:
+  {}
+  # fsGroup: 2000
+
+securityContext:
+  {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+# Pod Constraints: Resource Requests and Limits (Crucial for production stability and HPA)
+resources:
+  limits:
+    cpu: 100m    # Maximum CPU the container can use (e.g., 0.5 core)
+    memory: 100Mi # Maximum Memory the container can use
+  requests:
+    cpu: 10m    # Guaranteed minimum CPU for scheduling
+    memory: 50Mi # Guaranteed minimum Memory for scheduling
+
+# Best Practice: Liveness and Readiness Probes
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 10
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 5
+  failureThreshold: 5 # Higher threshold for better resilience against transient issues
+
+# Optional: Horizontal Pod Autoscaler (HPA)
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 5
+  # Target utilization for scaling (use one or both)
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 75
+
+# Optional: Pod Scheduling Constraints (Best Practices for resilience)
+nodeSelector:
+  workload: app
+  # kubernetes.io/os: linux
+
+affinity:
+  {}
+  # Pod Anti-Affinity: Tries to spread replicas across different nodes
+  # podAntiAffinity:
+  #   preferredDuringSchedulingIgnoredDuringExecution:
+  #   - weight: 100
+  #     podAffinityTerm:
+  #       labelSelector:
+  #         matchLabels:
+  #           app.kubernetes.io/name: {{ include "<CHART_NAME>.name" . }}
+  #       topologyKey: "kubernetes.io/hostname"
+
+tolerations:
+  []
+  # - key: "node-type"
+  #   operator: "Equal"
+  #   value: "special-purpose"
+  #   effect: "NoSchedule"
+
+# Optional: Pod Disruption Budget (PDB) - Best Practice for High Availability
+pdb:
+  enabled: false
+  minAvailable: 1
+  # or maxUnavailable: 1
+
+# Other standard configuration
+service:
+  type: ClusterIP
+  port: 8080
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+# Configuration data for the application
+configMapEnvVars: {}
+  # - name: BACKEND_API_URL
+  #   key: http://localhost:8080
+  #   configMapName: backend-api-url-cm
+
+configData:
+  data: {}
