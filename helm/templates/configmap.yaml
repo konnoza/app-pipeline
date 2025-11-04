@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "appDeploy.fullname" . }}-config
+  name: {{ include "appdeploy.fullname" . }}-config
   labels:
-    {{- include "appDeploy.labels" . | nindent 4 }}
+    {{- include "appdeploy.labels" . | nindent 4 }}
 data:
   # 1. Simple key-value pairs
   {{- range $key, $value := .Values.configData.data }}

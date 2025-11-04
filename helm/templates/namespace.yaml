@@ -6,5 +6,5 @@ metadata:
   # or allow a custom name via values.
   name: {{ .Values.namespace.name | default .Release.Namespace }} 
   labels:
-    {{- include "appDeploy.labels" . | nindent 4 }}
+    {{- include "appdeploy.labels" . | nindent 4 }}
 {{- end }}
