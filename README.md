@@ -28,8 +28,6 @@ This repository utilizes GitHub Actions to automate the build, push, and deploym
 | Deploy Backend Staging | ![Deploy Backend Staging](https://github.com/konnoza/app-pipeline/actions/workflows/deploy-be-stg.yaml/badge.svg) |
 | Deploy Frontend Staging | ![Deploy Frontend Staging](https://github.com/konnoza/app-pipeline/actions/workflows/deploy-fe-stg.yaml/badge.svg) |
 
-**Note:** Replace `your-username` in the badge URLs with your actual GitHub username or organization name.
-
 ## How to Deploy the Project
 
 To deploy this project, you will typically follow these steps:
