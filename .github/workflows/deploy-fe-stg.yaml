@@ -58,7 +58,7 @@ jobs:
 
       - name: 'Build Deployment Template'
         run: |
-          helm template ./helm/templates --values deploy/${{ env.ENVIRONMENT }}-${{ env.APP_TYPE }}-values.yaml \
+          helm template ./helm --values deploy/${{ env.ENVIRONMENT }}-${{ env.APP_TYPE }}-values.yaml \
           --set image.repository=${{ vars.AZURE_CONTAINER_REGISTRY_NAME }}.azurecr.io/${{ env.APP_TYPE }}:${{ env.IMAGE_TAG }}
           --set deploymentEnvironment=${{ env.ENVIRONMENT }} \
           --output-dir helm/output
