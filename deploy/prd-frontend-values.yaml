@@ -2,7 +2,7 @@
 createNamespace: true # Set to 'true' if you want this Helm chart to create the namespace
 nameOverride: frontend
 namespace:
-  name: "stg-fe" 
+  name: "prd-fe" 
 
 # Pod Constraints: Replica Count (Used if HPA is disabled)
 replicaCount: 1
