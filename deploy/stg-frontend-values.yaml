@@ -104,10 +104,11 @@ serviceAccount:
   name: ""
 
 # Configuration data for the application
-configMapEnvVars: {}
-  # - name: BACKEND_API_URL
-  #   key: http://localhost:8080
-  #   configMapName: backend-api-url-cm
+configMapEnvVars:
+  - name: BACKEND_API_URL
+    key: BACKEND_API_URL
+    configMapName: backend-api-url-cm
 
 configData:
-  data: {}
+  data:
+    BACKEND_API_URL: "http://stg-be.stg-be.svc.cluster.local:8080"
