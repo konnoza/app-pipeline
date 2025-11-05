@@ -107,7 +107,7 @@ serviceAccount:
 configMapEnvVars:
   - name: BACKEND_API_URL
     key: BACKEND_API_URL
-    configMapName: backend-api-url-cm
+    configMapName: {{ include "appdeploy.fullname" . }}-frontend-config
 
 configData:
   data:
