@@ -16,7 +16,6 @@ env:
   NAMESPACE: 'cert-manager'
   CLUSTER_RESOURCE_GROUP: 'rg-mydemo-az-asse-dev-001'
   CLUSTER_NAME: 'aks-mydemo-az-asse-dev-001'
-  IMAGE_TAG: ${{ github.event.inputs.tag }}
   EMAIL: '${{ vars.CERT_MANAGER_EMAIL }}'
 
 jobs:
@@ -74,7 +73,7 @@ jobs:
       
       - name: Install DuckDNS Webhook and Issuer
         run: |
-          helm upgrade --install cert-manager-duckdns-webhook csp33/cert-manager-duckdns-webhook \
+          helm upgrade --install cert-manager-duckdns-webhook duckdns-webhook/cert-manager-duckdns-webhook \
             --namespace cert-manager \
             --set clusterIssuer.email="${EMAIL}" \
             --set clusterIssuer.production.create=true \
