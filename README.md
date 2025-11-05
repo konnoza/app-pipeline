@@ -63,5 +63,5 @@ This repository utilizes GitHub Actions to automate the build, push, and deploym
 ## How to Deploy the Project
 
 To deploy this project, use **GitHub Actions**: The deployment is automated via GitHub Actions. Pushing changes to the main branch (or a configured branch) will trigger the build, push, and deployment workflows.
-    - The `build-push-be.yaml` and `build-push-fe.yaml` workflows will build and push the respective Docker images.
-    - The `deploy-<fe/be>-<env>.yaml` workflows will then use the Helm charts in the `helm/` directory to deploy the applications to the staging environment.
+- The `build-push-be.yaml` and `build-push-fe.yaml` workflows will build and push the respective Docker images.
+- The `deploy-<fe/be>-<env>.yaml` workflows will then use the Helm charts in the `helm/` directory to deploy the applications to the staging environment.
