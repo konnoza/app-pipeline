@@ -36,6 +36,8 @@ This diagram outlines dispatch to deployment, ensuring efficient delivery pipeli
 | Build & Push Frontend | ![Build and Push Frontend](https://github.com/konnoza/app-pipeline/actions/workflows/build-push-fe.yaml/badge.svg) |
 | Deploy Backend Staging | ![Deploy Backend Staging](https://github.com/konnoza/app-pipeline/actions/workflows/deploy-be-stg.yaml/badge.svg) |
 | Deploy Frontend Staging | ![Deploy Frontend Staging](https://github.com/konnoza/app-pipeline/actions/workflows/deploy-fe-stg.yaml/badge.svg) |
+| Deploy Backend Production | ![Deploy Backend Production](https://github.com/konnoza/app-pipeline/actions/workflows/deploy-be-prd.yaml/badge.svg) |
+| Deploy Frontend Production | ![Deploy Frontend Production](https://github.com/konnoza/app-pipeline/actions/workflows/deploy-fe-prd.yaml/badge.svg) |
 
 ## Log and monitor
 - Use Grafana cloud to integrate via ``Grafana Alloy`` agent to easy to integrate Observability
