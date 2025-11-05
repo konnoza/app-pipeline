@@ -110,4 +110,4 @@ configMapEnvVars:
 
 configData:
   data:
-    BACKEND_API_URL: "http://backend.stg-be.svc.cluster.local:8080"
+    BACKEND_API_URL: "http://backend.prd-be.svc.cluster.local:8080"
