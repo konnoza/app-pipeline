@@ -52,7 +52,7 @@ jobs:
 
       - name: 'Deployment Ingress'
         run: |
-          helm install ingress ingress-nginx/ingress-nginx -f deploy/ingress-values.yaml \
+          helm upgrade --install ingress ingress-nginx/ingress-nginx -f deploy/ingress-values.yaml \
           --set controller.service.type=LoadBalancer \
           --set controller.service.externalTrafficPolicy=Local \
           --namespace ingress --create-namespace \
@@ -60,17 +60,17 @@ jobs:
 
       - name: 'Deploy Cert-manager'
         run: |
-          helm install cert-manager jetstack/cert-manager \
+          helm upgrade --install cert-manager jetstack/cert-manager \
           --namespace cert-manager --create-namespace --version v1.12.0 --set installCRDs=true \
           --wait
-      
+
       - name: Create DuckDNS Secret for Cert-Manager
-        uses: azure/k8s-create-secret@v4
-        with:
-          secret-name: duckdns-token-secret
-          namespace: cert-manager
-          data: token=${{ secrets.DUCKDNS_API_TOKEN }} # Uses the GitHub Secret
-          type: generic
+        run: |
+          # The token is securely passed from GitHub Secrets into the kubectl command.
+          kubectl create secret generic duckdns-token-secret \
+            --from-literal=token=${{ secrets.DUCKDNS_API_TOKEN }} \
+            --namespace cert-manager \
+            --dry-run=client -o yaml | kubectl apply -f -
       
       - name: Install DuckDNS Webhook and Issuer
         run: |
