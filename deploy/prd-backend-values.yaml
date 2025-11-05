@@ -1,15 +1,15 @@
 # Controls the Namespace resource creation
 createNamespace: true # Set to 'true' if you want this Helm chart to create the namespace
-nameOverride: frontend
+nameOverride: backend
 namespace:
-  name: "stg-fe" 
+  name: "stg-be" 
 
 # Pod Constraints: Replica Count (Used if HPA is disabled)
 replicaCount: 1
 
 # Best Practice: Image configuration
 image:
-  repository: /frontend
+  repository: /backend
   pullPolicy: Always
 
 # Best Practice: Pod Security Contexts
@@ -38,13 +38,13 @@ resources:
 # Best Practice: Liveness and Readiness Probes
 livenessProbe:
   httpGet:
-    path: /healthz
+    path: /
     port: http
   initialDelaySeconds: 10
   periodSeconds: 10
 readinessProbe:
   httpGet:
-    path: /healthz
+    path: /
     port: http
   initialDelaySeconds: 5
   periodSeconds: 5
@@ -52,7 +52,7 @@ readinessProbe:
 
 # Optional: Horizontal Pod Autoscaler (HPA)
 autoscaling:
-  enabled: false
+  enabled: true
   minReplicas: 2
   maxReplicas: 5
   # Target utilization for scaling (use one or both)
@@ -92,7 +92,7 @@ pdb:
 # Other standard configuration
 service:
   type: ClusterIP
-  port: 80
+  port: 8080
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -104,10 +104,10 @@ serviceAccount:
   name: ""
 
 # Configuration data for the application
-configMapEnvVars:
-  - name: BACKEND_API_URL
-    key: BACKEND_API_URL
+configMapEnvVars: {}
+  # - name: BACKEND_API_URL
+  #   key: http://localhost:8080
+  #   configMapName: backend-api-url-cm
 
 configData:
-  data:
-    BACKEND_API_URL: "http://backend.stg-be.svc.cluster.local:8080"
+  data: {}

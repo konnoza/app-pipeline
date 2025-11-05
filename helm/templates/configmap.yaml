@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "appdeploy.fullname" . }}-configmap
+  name: {{ include "appdeploy.fullname" . }}
   labels:
     {{- include "appdeploy.labels" . | nindent 4 }}
 data:

@@ -1,0 +1,55 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nuttapo-demo-stg-ing
+  namespace: stg-fe
+  annotations:
+    # Tell NGINX to force all traffic to HTTPS
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    # Tell Cert-Manager to use the DuckDNS ClusterIssuer to get a certificate
+    cert-manager.io/cluster-issuer: duckdns-letsencrypt-prod 
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - nuttapo-demo-stg.duckdns.org # <--- Your DuckDNS domain
+    secretName: cert-manager-duckdns-webhook-webhook-tls # <--- Cert-Manager will create this secret
+  rules:
+    - host: nuttapo-demo-stg.duckdns.org
+      http:
+        paths:
+          - pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 80
+            path: /
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nuttapo-demo-prd-ing
+  namespace: prd-fe
+  annotations:
+    # Tell NGINX to force all traffic to HTTPS
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    # Tell Cert-Manager to use the DuckDNS ClusterIssuer to get a certificate
+    cert-manager.io/cluster-issuer: duckdns-letsencrypt-prod 
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - nuttapo-demo-prd.duckdns.org # <--- Your DuckDNS domain
+    secretName: cert-manager-duckdns-webhook-webhook-tls # <--- Cert-Manager will create this secret
+  rules:
+    - host: nuttapo-demo-prd.duckdns.org
+      http:
+        paths:
+          - pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 80
+            path: /

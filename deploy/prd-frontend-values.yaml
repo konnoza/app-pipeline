@@ -52,7 +52,7 @@ readinessProbe:
 
 # Optional: Horizontal Pod Autoscaler (HPA)
 autoscaling:
-  enabled: false
+  enabled: true
   minReplicas: 2
   maxReplicas: 5
   # Target utilization for scaling (use one or both)
