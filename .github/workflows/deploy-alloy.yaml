@@ -59,7 +59,6 @@ jobs:
           --set grafana.otlp.password=${{ secrets.GRAFANA_TOKEN }} \
           --set grafana.remoteConfig.username=${{ vars.GRAFANA_USER }} \
           --set grafana.remoteConfig.password=${{ secrets.GRAFANA_TOKEN }} \
-          --set cluster.name=${{ env.CLUSTER_NAME }} \
           --set grafana.token=${{ secrets.GRAFANA_TOKEN }} \
           --set grafana.user=${{ vars.GRAFANA_USER }} \
           --wait
