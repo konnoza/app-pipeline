@@ -13,14 +13,13 @@ permissions:
   contents: read # Allow checkout
 
 env:
-  NAMESPACE: 'cert-manager'
   CLUSTER_RESOURCE_GROUP: 'rg-mydemo-az-asse-dev-001'
   CLUSTER_NAME: 'aks-mydemo-az-asse-dev-001'
   EMAIL: '${{ vars.CERT_MANAGER_EMAIL }}'
 
 jobs:
   deploy-microservice:
-    name: Deploy Frontend Microservice ${{ github.event.inputs.tag }}
+    name: Deploy Microservice
     runs-on: ubuntu-latest
     steps:
       - name: Checkout pipelines

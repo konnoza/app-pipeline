@@ -1,0 +1,64 @@
+name: Deploy Grafana Alloy
+
+on:
+  workflow_dispatch:
+    # inputs:
+    #   tag:
+    #     description: "Artifact tag version"
+    #     default: 'Example: v0.0.1'
+    #     required: true
+
+permissions:
+  id-token: write # Mandatory for Azure OIDC authentication
+  contents: read # Allow checkout
+
+env:
+  NAMESPACE: 'monitor'
+  CLUSTER_NAME: 'aks-mydemo-az-asse-dev-001'
+
+jobs:
+  deploy-microservice:
+    name: Deploy Frontend Microservice ${{ github.event.inputs.tag }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout pipelines
+        uses: actions/checkout@v2
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+
+      - name: Log in with Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_MI_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Set Kubernetes Context
+        id: aks-login
+        run: |
+          az aks get-credentials --resource-group ${{ env.CLUSTER_RESOURCE_GROUP }} --name ${{ env.CLUSTER_NAME }} --overwrite-existing
+          # kubelogin convert-kubeconfig -l azurecli -t ""
+
+      - name: Add Helm Repositories
+        run: |
+          helm repo add grafana https://grafana.github.io/helm-charts
+          helm repo update
+
+      - name: 'Deployment Ingress'
+        run: |
+          helm upgrade --install --atomic --timeout 300s grafana-k8s-monitoring grafana/k8s-monitoring \
+          --namespace ${{ env.NAMESPACE }} --create-namespace --values deploy/alloy-values.yaml \
+          --set cluster.name=${{ env.CLUSTER_NAME }}
+          --set grafana.metrics.username=${{ vars.GRAFANA_PROMETHEUS_USER }} \
+          --set grafana.metrics.password=${{ secrets.GRAFANA_TOKEN }} \
+          --set grafana.logs.username=${{ vars.GRAFANA_LOG_USER }} \
+          --set grafana.logs.password=${{ secrets.GRAFANA_TOKEN }} \
+          --set grafana.otlp.username=${{ vars.GRAFANA_USER }} \
+          --set grafana.otlp.password=${{ secrets.GRAFANA_TOKEN }} \
+          --set grafana.remoteConfig.username=${{ vars.GRAFANA_USER }} \
+          --set grafana.remoteConfig.password=${{ secrets.GRAFANA_TOKEN }} \
+          --set cluster.name=${{ env.CLUSTER_NAME }} \
+          --set grafana.token=${{ secrets.GRAFANA_TOKEN }} \
+          --set grafana.user=${{ vars.GRAFANA_USER }} \
+          --wait
