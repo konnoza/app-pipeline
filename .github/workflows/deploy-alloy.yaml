@@ -14,6 +14,7 @@ permissions:
 
 env:
   NAMESPACE: 'monitor'
+  CLUSTER_RESOURCE_GROUP: 'rg-mydemo-az-asse-dev-001'
   CLUSTER_NAME: 'aks-mydemo-az-asse-dev-001'
 
 jobs:
