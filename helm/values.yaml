@@ -103,3 +103,29 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 # ... other values like ServiceAccount, Ingress, etc.
+
+ingress: {}
+  # enabled: true
+  # hosts:
+  #   - name: nuttapo-demo-stg-ing
+  #     namespace: stg-fe
+  #     className: nginx
+  #     annotations:
+  #       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+  #       cert-manager.io/cluster-issuer: duckdns-letsencrypt-prod
+  #     host: nuttapo-demo-stg.duckdns.org
+  #     secretName: cert-manager-duckdns-webhook-webhook-tls
+  #     path: /
+  #     serviceName: frontend
+  #     servicePort: 80
+  #   - name: nuttapo-demo-prd-ing
+  #     namespace: prd-fe
+  #     className: nginx
+  #     annotations:
+  #       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+  #       cert-manager.io/cluster-issuer: duckdns-letsencrypt-prod
+  #     host: nuttapo-demo-prd.duckdns.org
+  #     secretName: cert-manager-duckdns-webhook-webhook-tls
+  #     path: /
+  #     serviceName: frontend
+  #     servicePort: 80

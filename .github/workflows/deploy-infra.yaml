@@ -45,7 +45,7 @@ jobs:
         run: |
           helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
           helm repo add jetstack https://charts.jetstack.io
-          helm repo add duckdns-webhook https://csp33.github.io/cert-manager-duckdns-webhook
+          helm repo add ebrianne.github.io https://ebrianne.github.io/helm-charts
           helm repo update
 
       - name: 'Deployment Ingress'
@@ -59,23 +59,35 @@ jobs:
       - name: 'Deploy Cert-manager'
         run: |
           helm upgrade --install cert-manager jetstack/cert-manager \
-          --namespace cert-manager --create-namespace --version v1.12.0 --set installCRDs=true \
+          --namespace cert-manager --create-namespace --set installCRDs=true \
+          --set 'extraArgs={--dns01-recursive-nameservers=8.8.8.8:53\,1.1.1.1:53}' \
           --wait
 
       - name: Create DuckDNS Secret for Cert-Manager
         run: |
-          # The token is securely passed from GitHub Secrets into the kubectl command.
-          kubectl create secret generic duckdns-token-secret \
-            --from-literal=token=${{ secrets.DUCKDNS_API_TOKEN }} \
+            helm install cert-manager-webhook-duckdns \
             --namespace cert-manager \
-            --dry-run=client -o yaml | kubectl apply -f -
-      
-      - name: Install DuckDNS Webhook and Issuer
-        run: |
-          helm upgrade --install cert-manager-duckdns-webhook duckdns-webhook/cert-manager-duckdns-webhook \
-            --namespace cert-manager \
-            --set clusterIssuer.email="${EMAIL}" \
+            --set duckdns.token=${{ secrets.DUCKDNS_API_TOKEN }}' \
             --set clusterIssuer.production.create=true \
             --set clusterIssuer.staging.create=true \
-            --set token.existingSecretName=duckdns-token-secret \
-            --wait
+            --set clusterIssuer.email=${EMAIL} \
+            --set logLevel=2 \
+            ebrianne.github.io/cert-manager-webhook-duckdns
+
+      # - name: Create DuckDNS Secret for Cert-Manager
+      #   run: |
+      #     # The token is securely passed from GitHub Secrets into the kubectl command.
+      #     kubectl create secret generic duckdns-token-secret \
+      #       --from-literal=token=${{ secrets.DUCKDNS_API_TOKEN }} \
+      #       --namespace cert-manager \
+      #       --dry-run=client -o yaml | kubectl apply -f -
+      
+      # - name: Install DuckDNS Webhook and Issuer
+      #   run: |
+      #     helm upgrade --install cert-manager-duckdns-webhook duckdns-webhook/cert-manager-duckdns-webhook \
+      #       --namespace cert-manager \
+      #       --set clusterIssuer.email="${EMAIL}" \
+      #       --set clusterIssuer.production.create=true \
+      #       --set clusterIssuer.staging.create=true \
+      #       --set token.existingSecretName=duckdns-token-secret \
+      #       --wait

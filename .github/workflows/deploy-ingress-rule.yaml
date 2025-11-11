@@ -38,6 +38,10 @@ jobs:
           az aks get-credentials --resource-group ${{ env.CLUSTER_RESOURCE_GROUP }} --name ${{ env.CLUSTER_NAME }} --overwrite-existing
           # kubelogin convert-kubeconfig -l azurecli -t ""
 
+      - name: 'Build Deployment Template'
+        run: |
+          helm template ./helm --values deploy/ingress-rule.yaml --output-dir helm/output
+
       - name: 'Deploy'
         run: |
-          kubectl apply -f deploy/ingress-rule.yaml
+          kubectl apply -f helm/output/appdeploy/templates/ingress.yaml
