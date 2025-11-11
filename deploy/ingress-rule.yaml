@@ -6,9 +6,9 @@ ingress:
       className: nginx
       annotations:
         nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-        cert-manager.io/cluster-issuer: cert-manager-webhook-duckdns-production
+        cert-manager.io/cluster-issuer: cert-manager-webhook-duckdns-staging
       host: nuttapo-demo-stg.duckdns.org
-      secretName: nuttapo-demo-stg-tls
+      secretName: nuttapo-demo-stg-tls-staging
       path: /
       serviceName: frontend
       servicePort: 80
@@ -17,9 +17,9 @@ ingress:
       className: nginx
       annotations:
         nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-        cert-manager.io/cluster-issuer: cert-manager-webhook-duckdns-production
+        cert-manager.io/cluster-issuer: cert-manager-webhook-duckdns-staging
       host: nuttapo-demo-prd.duckdns.org
-      secretName: nuttapo-demo-prd-tls
+      secretName: nuttapo-demo-prd-tls-staging
       path: /
       serviceName: frontend
       servicePort: 80
