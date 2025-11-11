@@ -65,6 +65,8 @@ jobs:
 
       - name: Create DuckDNS Secret for Cert-Manager
         run: |
+            git clone https://github.com/ebrianne/cert-manager-webhook-duckdns.git
+            cd cert-manager-webhook-duckdns           
             helm install cert-manager-webhook-duckdns \
             --namespace cert-manager \
             --set duckdns.token=${{ secrets.DUCKDNS_API_TOKEN }}' \
@@ -72,7 +74,7 @@ jobs:
             --set clusterIssuer.staging.create=true \
             --set clusterIssuer.email=${EMAIL} \
             --set logLevel=2 \
-            ebrianne.github.io/cert-manager-webhook-duckdns
+            ./deploy/cert-manager-webhook-duckdns
 
       # - name: Create DuckDNS Secret for Cert-Manager
       #   run: |
