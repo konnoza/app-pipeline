@@ -551,7 +551,7 @@ controller:
     ipFamilies:
       - IPv4
     # -- Enable the HTTP listener on both controller services or not.
-    enableHttp: false
+    enableHttp: true
     # -- Enable the HTTPS listener on both controller services or not.
     enableHttps: true
     ports:
