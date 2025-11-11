@@ -5,7 +5,6 @@ ingress:
       namespace: stg-fe
       className: nginx
       annotations:
-        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
         cert-manager.io/cluster-issuer: cert-manager-webhook-duckdns-staging
       host: nuttapo-demo-stg.duckdns.org
       secretName: nuttapo-demo-stg-tls-staging
@@ -16,7 +15,6 @@ ingress:
       namespace: prd-fe
       className: nginx
       annotations:
-        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
         cert-manager.io/cluster-issuer: cert-manager-webhook-duckdns-staging
       host: nuttapo-demo-prd.duckdns.org
       secretName: nuttapo-demo-prd-tls-staging
